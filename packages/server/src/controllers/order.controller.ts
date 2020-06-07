@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Request, Response } from 'express';
 import Order from '../models/order.model';
 
@@ -54,6 +55,7 @@ export async function createOrder(req: Request, res: Response): Promise<Response
     try {
         const newOrder = new Order({
             orderItems: req.body.orderItems,
+            // @ts-ignore
             user: req.user?._id,
             shipping: req.body.shipping,
             payment: req.body.payment,
@@ -64,6 +66,34 @@ export async function createOrder(req: Request, res: Response): Promise<Response
         });
         const newOrderCreated = await newOrder.save();
         return res.status(201).json({ message: 'Order created', newOrderCreated });
+    } catch (err) {
+        return res.status(500).json({ message: 'Occur a problem with the server.' });
+    }
+}
+
+export async function paymentMethod(req: Request, res: Response): Promise<Response> {
+    try {
+        const order = await Order.findById(req.params.id);
+        if (order) {
+            // @ts-ignore
+            order.isPaid = true;
+            // @ts-ignore
+            order.paidAt = Date.now();
+            // @ts-ignore
+            order.payment = {
+                paymentMethod: 'paypal',
+                paymentResult: {
+                    payerID: req.body.payerID,
+                    orderID: req.body.orderID,
+                    paymentID: req.body.paymentID
+                }
+            }
+            const updateOrder = await order.save();
+            return res.status(200).json({ message: 'Order paid.', updateOrder });
+        }
+        else {
+            return res.status(404).json({ message: 'Order not found.' });
+        }
     } catch (err) {
         return res.status(500).json({ message: 'Occur a problem with the server.' });
     }
