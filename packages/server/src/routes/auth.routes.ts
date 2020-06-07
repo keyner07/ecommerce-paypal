@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { signIn, signUp } from '../controllers/user.controller';
+import userRouter from './user.routes';
 
 class UserRoutes {
     public router: Router;
@@ -11,9 +12,9 @@ class UserRoutes {
     }
 
     protected routes(): void {
-        this.router.get('/h', (req, res) => { res.json({ message: "hey" })});
         this.router.post('/register', signUp);
         this.router.post('/login', signIn);
+        this.router.use('/user', userRouter);
     }
 }
 const router = new UserRoutes().router;

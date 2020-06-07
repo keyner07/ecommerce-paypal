@@ -44,3 +44,21 @@ export async function signIn(req: Request, res: Response): Promise<Response> {
         console.error(`[CSI] The problem is ${err}`);
     }
 }
+
+export async function updateUser(req: Request, res: Response): Promise<Response> {
+    try {
+        const id = parseInt(req.params.id);
+        const user = await User.findById(id);
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+            user.password = req.body.password || user.password;
+            const result = await user.save();
+            return res.status(200).json({ message: "Succesful", result });
+        } else {
+            return res.status(400).json({ message: "User not found."});
+        }
+    } catch (err) {
+        return res.status(500).json({ message: 'Occur problem with the server.'});
+    }
+}
