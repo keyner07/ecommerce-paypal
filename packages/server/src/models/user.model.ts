@@ -51,7 +51,12 @@ userSchema.pre<IUser>('save', async function (next: () => void) {
     next();
 });
 userSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this.password);
+    try {
+        return await bcrypt.compare(password, this.password);
+    } catch (err) {
+        return false;
+        console.error(`[COMP] The problem is ${err}`);
+    }
 };
 userSchema.methods.updateLastSession = async function(): Promise<boolean> {
     try {
