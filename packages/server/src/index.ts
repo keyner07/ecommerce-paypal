@@ -2,8 +2,10 @@ import Express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import passport from 'passport';
 
 import config from './config/index';
+import passportMiddleware from './middlewares/passport';
 
 class App {
     public app: Application;
@@ -17,9 +19,11 @@ class App {
     protected plugins(): void {
         this.app.use(morgan('dev'));
         this.app.use(cors());
+        this.app.use(helmet());
         this.app.use(Express.urlencoded({ extended: false }));
         this.app.use(Express.json());
-        this.app.use(helmet());
+        this.app.use(passport.initialize());
+        passport.use(passportMiddleware);
     }
 
     protected routes(): void {
