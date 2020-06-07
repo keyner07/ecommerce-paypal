@@ -54,11 +54,11 @@ export async function updateUser(req: Request, res: Response): Promise<Response>
             user.email = req.body.email || user.email;
             user.password = req.body.password || user.password;
             const result = await user.save();
-            return res.status(200).json({ message: "Succesful", result });
+            return res.status(200).json({ message: 'Succesful', result });
         } else {
-            return res.status(400).json({ message: "User not found."});
+            return res.status(400).json({ message: 'User not found.' });
         }
     } catch (err) {
-        return res.status(500).json({ message: 'Occur problem with the server.'});
+        return res.status(500).json({ message: 'Occur problem with the server.' });
     }
 }

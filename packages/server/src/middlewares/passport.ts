@@ -10,7 +10,12 @@ const opts: StrategyOptions = {
 
 export default new Strategy(opts, async (payload, done) => {
     try {
-        const user = await User.findById(payload.id, { password: 0, created_At: 0, last_session: 0, __v: 0});
+        const user = await User.findById(payload.id, {
+            password: 0,
+            created_At: 0,
+            last_session: 0,
+            __v: 0,
+        });
         const { exp } = payload;
         if (exp < Date.now()) {
             if (user) {

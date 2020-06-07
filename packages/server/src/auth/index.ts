@@ -11,7 +11,10 @@ export async function generateToken(user: IUser): Promise<string> {
     });
 }
 
-export async function comparePassword(password: string, hashPassword: IUser['password']): Promise<boolean> {
+export async function comparePassword(
+    password: string,
+    hashPassword: IUser['password'],
+): Promise<boolean> {
     try {
         return await bcrypt.compare(password, hashPassword);
     } catch (err) {
