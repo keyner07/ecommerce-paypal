@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User, { IUser } from '../models/user.model';
+import User from '../models/user.model';
 
 import { generateToken, comparePassword } from '../auth/index';
 
