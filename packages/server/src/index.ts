@@ -7,6 +7,7 @@ import passport from 'passport';
 import config from './config/index';
 import passportMiddleware from './middlewares/passport';
 import authRouter from './routes/auth.routes';
+import userRouter from './routes/user.routes';
 import db from './db';
 
 class App {
@@ -31,6 +32,7 @@ class App {
 
     protected routes(): void {
         this.app.use('/api', authRouter);
+        this.app.use('/user', userRouter);
     }
     protected db(): void {
         const database = config.database?.toString();
