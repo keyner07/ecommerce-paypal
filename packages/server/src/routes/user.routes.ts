@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import { updateUser } from '../controllers/user.controller';
+import { signIn, signUp, updateUser } from '../controllers/user.controller';
 
 class UserRoutes {
     public router: Router;
@@ -12,6 +12,8 @@ class UserRoutes {
     }
 
     protected routes(): void {
+        this.router.post('/register', signUp);
+        this.router.post('/login', signIn);
         this.router.put('/:id', passport.authenticate("jwt", { session: false }), updateUser);
     }
 }
