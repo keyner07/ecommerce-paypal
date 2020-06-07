@@ -6,6 +6,7 @@ import passport from 'passport';
 
 import config from './config/index';
 import passportMiddleware from './middlewares/passport';
+import authRouter from './routes/auth.routes';
 
 class App {
     public app: Application;
@@ -27,7 +28,7 @@ class App {
     }
 
     protected routes(): void {
-        this.app.use('/', (req, res) => { res.json({ message: "Hello" })});
+        this.app.use('/api', authRouter);
     }
 }
 const app = new App().app;
