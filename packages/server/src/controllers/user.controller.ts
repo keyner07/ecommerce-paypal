@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User, { IUser } from '../models/user.model';
 
-import { generateToken } from '../auth/index';
+import { generateToken, comparePassword } from '../auth/index';
 
 export async function signUp(req: Request, res: Response): Promise<Response> {
     try {
@@ -33,7 +33,7 @@ export async function signIn(req: Request, res: Response): Promise<Response> {
         if (!user) {
             return res.status(400).json({ message: "The user doesn't exists." });
         }
-        const isMatch = await user.comparePassword(req.body.password);
+        const isMatch = await comparePassword(password, user.password);
         if (isMatch) {
             return res.status(400).json({ token: generateToken(user) });
         }
