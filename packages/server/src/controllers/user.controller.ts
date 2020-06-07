@@ -5,8 +5,8 @@ import { generateToken, comparePassword } from '../auth/index';
 
 export async function signUp(req: Request, res: Response): Promise<Response> {
     try {
-        const { name, email, password, isAdmin } = req.body;
-        if (!name || !email || !password || !isAdmin) {
+        const { name, email, password } = req.body;
+        if (!name || !email || !password) {
             return res.status(400).json({ message: 'Please. Send all your data.' });
         }
 
