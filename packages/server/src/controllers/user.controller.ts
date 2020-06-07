@@ -7,18 +7,18 @@ export async function signUp(req: Request, res: Response): Promise<Response> {
     try {
         const { name, email, password } = req.body;
         if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Please. Send all your data.' });
+            return await res.status(400).json({ message: 'Please. Send all your data.' });
         }
 
         const user = await User.findOne({ email: email });
         if (user) {
-            return res.status(400).json({ message: 'The user already exists.' });
+            return await res.status(400).json({ message: 'The user already exists.' });
         }
         const newUser = new User(req.body);
         await newUser.save();
-        return res.status(201).json(newUser);
+        return await res.status(201).json(newUser);
     } catch (err) {
-        return res.status(500).json({ message: `The server has an error. ${err}` });
+        return await res.status(500).json({ message: `The server has an error. ${err}` });
         console.error(`[CSU] The problem is ${err}`);
     }
 }
@@ -31,16 +31,16 @@ export async function signIn(req: Request, res: Response): Promise<Response> {
         }
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
-            return res.status(400).json({ message: "The user doesn't exists." });
+            return await res.status(400).json({ message: "The user doesn't exists." });
         }
         const isMatch = await comparePassword(password, user.password);
         if (isMatch) {
-            return res.status(400).json({ token: generateToken(user) });
+            return await res.status(200).json({ token: await generateToken(user) });
         }
 
-        return res.status(400).json({ message: 'The email or password are incorrect.' });
+        return await res.status(400).json({ message: 'The email or password are incorrect.' });
     } catch (err) {
-        return res.status(500).json({ message: `The server has an error. ${err}` });
+        return await res.status(500).json({ message: `The server has an error. ${err}` });
         console.error(`[CSI] The problem is ${err}`);
     }
 }
