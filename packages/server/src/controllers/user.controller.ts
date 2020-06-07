@@ -17,3 +17,21 @@ export async function signUp( req: Request, res: Response): Promise<Response> {
     await newUser.save();
     return res.status(201).json(newUser);
 }
+
+export async function signIn( req: Request, res: Response): Promise<Response> {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: "Please. Send your email and password." });
+    }
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return res.status(400).json({ message: "The user doesn't exists." });
+    }
+
+    const isMatch = await user.comparePassword(req.body.password);
+    if (isMatch) {
+        return res.status(400).json({ token: generateToken(user) });
+    }
+
+    return res.status(400).json({ message: "The email or password are incorrect." });
+}
