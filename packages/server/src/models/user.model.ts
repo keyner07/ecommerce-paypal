@@ -6,42 +6,42 @@ import config from '../config/index';
 const userSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         required: true,
         index: true,
         unique: true,
-        lowercase: true
+        lowercase: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     isAdmin: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
     },
     created_At: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     last_session: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
 export interface IUser extends Document {
-    _id: Schema.Types.ObjectId,
-    name: string,
-    email: string,
-    password: string,
-    isAdmin: boolean,
-    created_At: Date,
-    last_session: Date
+    _id: Schema.Types.ObjectId;
+    name: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+    created_At: Date;
+    last_session: Date;
 }
 userSchema.pre<IUser>('save', async function (next: () => void) {
     if (!this.isModified('password')) return next();
@@ -51,15 +51,8 @@ userSchema.pre<IUser>('save', async function (next: () => void) {
     this.password = hash;
     next();
 });
-userSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
-    try {
-        return await bcrypt.compare(password, this.password);
-    } catch (err) {
-        return false;
-        console.error(`[COMP] The problem is ${err}`);
-    }
-};
-userSchema.methods.updateLastSession = async function(): Promise<boolean> {
+
+userSchema.methods.updateLastSession = async function (): Promise<boolean> {
     try {
         this.last_session = Date.now;
         return true;

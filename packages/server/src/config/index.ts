@@ -6,4 +6,4 @@ export default {
     port: process.env.PORT,
     database: process.env.DATABASE_URI,
     salt: process.env.SALT_ROUND,
-}
+};

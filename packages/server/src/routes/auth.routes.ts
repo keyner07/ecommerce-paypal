@@ -9,7 +9,9 @@ class UserRoutes {
     }
 
     protected routes(): void {
-        this.router.post('/register', (req, res) => { res.json({ message: "Hey" })});
+        this.router.post('/register', (req, res) => {
+            res.json({ message: 'Hey' });
+        });
     }
 }
 const router = new UserRoutes().router;

@@ -17,4 +17,4 @@ export default new Strategy(opts, async (payload, done) => {
     } catch (err) {
         console.error(`[PJWT] This is the problem ${err}`);
     }
-})
+});

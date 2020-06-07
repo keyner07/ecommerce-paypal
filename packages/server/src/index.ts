@@ -34,5 +34,5 @@ class App {
 const app = new App().app;
 const { port } = config;
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
+    console.log(`Server running on port ${port}`);
+});

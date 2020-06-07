@@ -13,16 +13,16 @@ const productSchema = new Schema({
 });
 
 export interface IProduct extends Document {
-    _id: Schema.Types.ObjectId,
-    name: string,
-    image: string,
-    brand: string,
-    price: number,
-    category: string,
-    countInStock: number,
-    description: string,
-    rating: number,
-    numReviews: number
+    _id: Schema.Types.ObjectId;
+    name: string;
+    image: string;
+    brand: string;
+    price: number;
+    category: string;
+    countInStock: number;
+    description: string;
+    rating: number;
+    numReviews: number;
 }
 
 export default model<IProduct>('Product', productSchema);

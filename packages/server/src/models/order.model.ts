@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 
 const shippingSchema = {
-    address: { type: String, required: true},
-    city: { type: String, required: true},
-    postalCode: { type: String, required: true},
-    country: { type: String, required: true }
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, required: true },
 };
 
 const paymentSchema = {
-    paymentMethod: { type: String, required: true}
+    paymentMethod: { type: String, required: true },
 };
 
 const orderItemSchema = new Schema({
@@ -19,23 +19,28 @@ const orderItemSchema = new Schema({
     product: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
-        required: true
+        required: true,
     },
 });
 
-const orderSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    orderItems: [orderItemSchema],
-    shipping: shippingSchema,
-    payment: paymentSchema,
-    itemsPrice: { type: Number },
-    taxPrice: { type: Number },
-    shippingPrice: { type: Number },
-    totalPrice: { type: Number },
-    isPaid: { type: Boolean, default: false },
-    paidAt: { type: Date },
-    isDelivered: { type: Boolean, default: false },
-    deliveredAt: { type: Date },}, {
-    timestamps: true });
+const orderSchema = new Schema(
+    {
+        user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        orderItems: [orderItemSchema],
+        shipping: shippingSchema,
+        payment: paymentSchema,
+        itemsPrice: { type: Number },
+        taxPrice: { type: Number },
+        shippingPrice: { type: Number },
+        totalPrice: { type: Number },
+        isPaid: { type: Boolean, default: false },
+        paidAt: { type: Date },
+        isDelivered: { type: Boolean, default: false },
+        deliveredAt: { type: Date },
+    },
+    {
+        timestamps: true,
+    },
+);
 
 export default model('Order', orderSchema);
