@@ -18,7 +18,7 @@ export async function signUp(req: Request, res: Response): Promise<Response> {
         await newUser.save();
         return res.status(201).json(newUser);
     } catch (err) {
-        return res.status(500).json({ message: 'The server has a error.' });
+        return res.status(500).json({ message: `The server has an error. ${err}` });
         console.error(`[CSU] The problem is ${err}`);
     }
 }
@@ -40,7 +40,7 @@ export async function signIn(req: Request, res: Response): Promise<Response> {
 
         return res.status(400).json({ message: 'The email or password are incorrect.' });
     } catch (err) {
-        return res.status(500).json({ message: 'The server has a error.' });
+        return res.status(500).json({ message: `The server has an error. ${err}` });
         console.error(`[CSI] The problem is ${err}`);
     }
 }

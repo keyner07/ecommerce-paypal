@@ -5,7 +5,7 @@ async function connect(stringConnect: string | any): Promise<void> {
     await mongoose.connect(stringConnect, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        dbName: 'chat-app',
+        dbName: 'ecommerce-app',
     });
     console.log('[db] sucessful connection');
 }
