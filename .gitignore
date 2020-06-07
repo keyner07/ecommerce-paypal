@@ -1,0 +1,11 @@
+#Node modules
+node_modules/
+
+yarn-error.log
+.eslintcache
+
+# Environment variables
+.env
+
+# Folder of javascript
+dist/
