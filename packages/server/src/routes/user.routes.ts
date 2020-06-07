@@ -12,15 +12,7 @@ class UserRoutes {
     }
 
     protected routes(): void {
-        this.router.put('/:id', passport.authenticate('jwt', { session: false }), updateUser);
-        this.router.get(
-            '/hey',
-            passport.authenticate('jwt', { session: false }),
-            async (req, res) => {
-                return res.send('hey');
-                console.log(req);
-            },
-        );
+        this.router.put('/:id', passport.authenticate("jwt", { session: false }), updateUser);
     }
 }
 const router = new UserRoutes().router;
