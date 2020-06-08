@@ -80,3 +80,16 @@ export async function createProduct(req: Request, res: Response): Promise<Respon
         return res.status(500).json({ message: 'Occur a problem with the server.' });
     }
 }
+
+export async function deleteProduct(req: Request, res: Response): Promise<Response> {
+    try {
+        const productDelete = await Product.findById(req.params.id);
+        if (productDelete) {
+            await productDelete.remove();
+            return res.status(200).json(({ message: 'Product deleted.' }));
+        }
+        return res.status(400).json({ message: 'Product not found.' });
+    } catch (err) {
+        return res.status(500).json({ message: 'Occur a problem with the server.' });
+    }
+}
