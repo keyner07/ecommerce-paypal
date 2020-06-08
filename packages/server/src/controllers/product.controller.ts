@@ -20,3 +20,17 @@ export async function searchProduct(req: Request, res: Response): Promise<Respon
         return res.status(500).json({ message: 'Occur a problem with the server.' });
     }
 }
+
+export async function getProduct(req: Request, res: Response): Promise<Response> {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (product) {
+            return res.status(200).json(product);
+        }
+        else {
+            return res.status(400).json({ message: 'Product not found.' });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: "Occur a problem with the server." });
+    }
+}
