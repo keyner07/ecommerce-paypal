@@ -57,3 +57,26 @@ export async function updateProduct(req: Request, res: Response): Promise<Respon
             return res.status(500).json({ message: 'Occur a problem with the server.' });
         }
 }
+
+export async function createProduct(req: Request, res: Response): Promise<Response> {
+    try {
+        const product = new Product({
+            name: req.body.name,
+            price: req.body.price,
+            image: req.body.image,
+            brand: req.body.brand,
+            category: req.body.category,
+            countInStock: req.body.countInStock,
+            description: req.body.description,
+            rating: req.body.rating,
+            numReviews: req.body.numReviews,
+        });
+        const newProduct = await product.save();
+        if (newProduct) {
+            return res.status(201).json(newProduct);
+        }
+        return res.status(400).json({ message: 'Occur a problem with the data.' });
+    } catch (err) {
+        return res.status(500).json({ message: 'Occur a problem with the server.' });
+    }
+}
