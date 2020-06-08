@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Request, Response } from 'express';
 import Product from '../models/product.model';
 
@@ -37,6 +38,10 @@ export async function getProduct(req: Request, res: Response): Promise<Response>
 
 export async function updateProduct(req: Request, res: Response): Promise<Response> {
     try {
+        // @ts-ignore
+        if (req.user?.isAdmin) {
+            return res.status(400).json({ message: 'Unauthorized.' });
+        }
         const productId = req.params.id;
         const product = await Product.findById(productId);
         if (product) {
@@ -60,6 +65,10 @@ export async function updateProduct(req: Request, res: Response): Promise<Respon
 
 export async function createProduct(req: Request, res: Response): Promise<Response> {
     try {
+        // @ts-ignore
+        if (req.user?.isAdmin) {
+            return res.status(400).json({ message: 'Unauthorized.' });
+        }
         const product = new Product({
             name: req.body.name,
             price: req.body.price,
@@ -83,6 +92,10 @@ export async function createProduct(req: Request, res: Response): Promise<Respon
 
 export async function deleteProduct(req: Request, res: Response): Promise<Response> {
     try {
+        // @ts-ignore
+        if (req.user?.isAdmin) {
+            return res.status(400).json({ message: 'Unauthorized.' });
+        }
         const productDelete = await Product.findById(req.params.id);
         if (productDelete) {
             await productDelete.remove();
