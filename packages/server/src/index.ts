@@ -8,6 +8,7 @@ import config from './config/index';
 import passportMiddleware from './middlewares/passport';
 import authRouter from './routes/user.routes';
 import orderRouter from './routes/order.routes';
+import productRouter from './routes/product.routes';
 import db from './db';
 
 class App {
@@ -33,6 +34,7 @@ class App {
     protected routes(): void {
         this.app.use('/user', authRouter);
         this.app.use('/orders', orderRouter);
+        this.app.use('/products', productRouter);
     }
     protected db(): void {
         const database = config.database?.toString();

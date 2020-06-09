@@ -15,6 +15,7 @@ export async function searchProduct(req: Request, res: Response): Promise<Respon
         (req.query.sortOrder === 'lowest' ? { price: 1 } : { price: -1 })
         :
         { _id: -1 };
+        // @ts-ignore
         const products = await Product.find({ ...category, ...searchKeyword }).sort(sortOrder);
         return res.status(200).json(products);
     } catch (err) {
@@ -39,19 +40,19 @@ export async function getProduct(req: Request, res: Response): Promise<Response>
 export async function updateProduct(req: Request, res: Response): Promise<Response> {
     try {
         // @ts-ignore
-        if (req.user?.isAdmin) {
+        if (!req.user?.isAdmin) {
             return res.status(400).json({ message: 'Unauthorized.' });
         }
         const productId = req.params.id;
         const product = await Product.findById(productId);
         if (product) {
-            product.name = req.body.name;
-            product.price = req.body.price;
-            product.image = req.body.image;
-            product.brand = req.body.brand;
-            product.category = req.body.category;
-            product.countInStock = req.body.countInStock;
-            product.description = req.body.description;
+            product.name = req.body.name || product.name;
+            product.price = req.body.price || product.price;
+            product.image = req.body.image || product.image;
+            product.brand = req.body.brand || product.brand;
+            product.category = req.body.category || product.category;
+            product.countInStock = req.body.countInStock || product.countInStock;
+            product.description = req.body.description || product.description;
             const productUpdate = await product.save();
             if (productUpdate) {
                 return res.status(200).json({ message: 'Product updated', productUpdate});
@@ -66,7 +67,7 @@ export async function updateProduct(req: Request, res: Response): Promise<Respon
 export async function createProduct(req: Request, res: Response): Promise<Response> {
     try {
         // @ts-ignore
-        if (req.user?.isAdmin) {
+        if (!req.user?.isAdmin) {
             return res.status(400).json({ message: 'Unauthorized.' });
         }
         const product = new Product({
@@ -93,7 +94,7 @@ export async function createProduct(req: Request, res: Response): Promise<Respon
 export async function deleteProduct(req: Request, res: Response): Promise<Response> {
     try {
         // @ts-ignore
-        if (req.user?.isAdmin) {
+        if (!req.user?.isAdmin) {
             return res.status(400).json({ message: 'Unauthorized.' });
         }
         const productDelete = await Product.findById(req.params.id);

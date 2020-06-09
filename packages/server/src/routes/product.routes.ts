@@ -16,7 +16,7 @@ class ProductRoutes {
         this.router.get('/:id', passport.authenticate('jwt', { session: false }), getProduct);
         this.router.put('/:id', passport.authenticate('jwt', { session: false }), updateProduct);
         this.router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteProduct);
-        this.router.post('/:id/pay', passport.authenticate('jwt', { session: false }), createProduct);
+        this.router.post('/', passport.authenticate('jwt', { session: false }), createProduct);
     }
 }
 const router = new ProductRoutes().router;
