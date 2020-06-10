@@ -1,7 +1,13 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import { createProduct, updateProduct, deleteProduct, getProduct, searchProduct } from '../controllers/product.controller';
+import {
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    getProduct,
+    searchProduct,
+} from '../controllers/product.controller';
 
 class ProductRoutes {
     public router: Router;
@@ -12,7 +18,7 @@ class ProductRoutes {
     }
 
     protected routes(): void {
-        this.router.get('/', passport.authenticate("jwt", { session: false }), searchProduct);
+        this.router.get('/', passport.authenticate('jwt', { session: false }), searchProduct);
         this.router.get('/:id', passport.authenticate('jwt', { session: false }), getProduct);
         this.router.put('/:id', passport.authenticate('jwt', { session: false }), updateProduct);
         this.router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteProduct);

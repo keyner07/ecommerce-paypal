@@ -5,16 +5,19 @@ import Product from '../models/product.model';
 export async function searchProduct(req: Request, res: Response): Promise<Response> {
     try {
         const category = req.query.category ? { category: req.query.category } : {};
-        const searchKeyword = req.query.searchKeyword ? {
-            name: {
-                $regex: req.query.searchKeyword,
-                $options: 'i'
-            }
-        } : {};
-        const sortOrder = req.query.sortOrder ?
-        (req.query.sortOrder === 'lowest' ? { price: 1 } : { price: -1 })
-        :
-        { _id: -1 };
+        const searchKeyword = req.query.searchKeyword
+            ? {
+                  name: {
+                      $regex: req.query.searchKeyword,
+                      $options: 'i',
+                  },
+              }
+            : {};
+        const sortOrder = req.query.sortOrder
+            ? req.query.sortOrder === 'lowest'
+                ? { price: 1 }
+                : { price: -1 }
+            : { _id: -1 };
         // @ts-ignore
         const products = await Product.find({ ...category, ...searchKeyword }).sort(sortOrder);
         return res.status(200).json(products);
@@ -28,12 +31,11 @@ export async function getProduct(req: Request, res: Response): Promise<Response>
         const product = await Product.findById(req.params.id);
         if (product) {
             return res.status(200).json(product);
-        }
-        else {
+        } else {
             return res.status(400).json({ message: 'Product not found.' });
         }
     } catch (err) {
-        return res.status(500).json({ message: "Occur a problem with the server." });
+        return res.status(500).json({ message: 'Occur a problem with the server.' });
     }
 }
 
@@ -55,13 +57,13 @@ export async function updateProduct(req: Request, res: Response): Promise<Respon
             product.description = req.body.description || product.description;
             const productUpdate = await product.save();
             if (productUpdate) {
-                return res.status(200).json({ message: 'Product updated', productUpdate});
+                return res.status(200).json({ message: 'Product updated', productUpdate });
             }
         }
-        return res.status(500).json({ message: 'Error in updating product.'});
-        } catch (err) {
-            return res.status(500).json({ message: 'Occur a problem with the server.' });
-        }
+        return res.status(500).json({ message: 'Error in updating product.' });
+    } catch (err) {
+        return res.status(500).json({ message: 'Occur a problem with the server.' });
+    }
 }
 
 export async function createProduct(req: Request, res: Response): Promise<Response> {
@@ -100,7 +102,7 @@ export async function deleteProduct(req: Request, res: Response): Promise<Respon
         const productDelete = await Product.findById(req.params.id);
         if (productDelete) {
             await productDelete.remove();
-            return res.status(200).json(({ message: 'Product deleted.' }));
+            return res.status(200).json({ message: 'Product deleted.' });
         }
         return res.status(400).json({ message: 'Product not found.' });
     } catch (err) {

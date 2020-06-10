@@ -14,7 +14,7 @@ class UserRoutes {
     protected routes(): void {
         this.router.post('/register', signUp);
         this.router.post('/login', signIn);
-        this.router.put('/:id', passport.authenticate("jwt", { session: false }), updateUser);
+        this.router.put('/:id', passport.authenticate('jwt', { session: false }), updateUser);
     }
 }
 const router = new UserRoutes().router;
