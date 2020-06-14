@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import passport from 'passport';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize';
 
 import config from './config/index';
 import passportMiddleware from './middlewares/passport';
@@ -26,7 +28,9 @@ class App {
         this.app.use(cors());
         this.app.use(helmet());
         this.app.use(Express.urlencoded({ extended: false }));
-        this.app.use(Express.json());
+        this.app.use(Express.json({ limit: '10kb' }));
+        this.app.use( rateLimit({ max: 100, windowMs: 30 * 60 * 1000 }));
+        this.app.use(mongoSanitize());
         this.app.use(passport.initialize());
         passport.use(passportMiddleware);
     }
